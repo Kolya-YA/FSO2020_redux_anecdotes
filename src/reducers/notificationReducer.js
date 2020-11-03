@@ -9,12 +9,17 @@ const notificationReducer = (state = '', action) => {
   }
 }
 
-export const createNotification = content => (
-  {
-    type: 'CREATE_NOTIFICATION',
-    data: `You voted "${content.slice(0, 25)}..."`
+export const createNotification = (content, duration=5000) => {
+  return async dispatch => {
+    dispatch({
+      type: 'CREATE_NOTIFICATION',
+      data: `You voted "${content.slice(0, 25)}..."`
+    })
+    setTimeout(() => {
+      dispatch(delNotification())
+    }, duration)
   }
-)
+}
 
 export const delNotification = () => (
   {
