@@ -11,7 +11,7 @@ const AnecdoteList = () => {
       ? anecdotes.filter(a => a.content.toLowerCase().includes(filter.toLowerCase()))
       : anecdotes
   })
-  // const anecdotes = useSelector(state => state.anecdotes)
+  
   const dispatch = useDispatch()
   
   const voteHandler = ({ id, content }) => {
