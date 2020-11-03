@@ -3,9 +3,15 @@ import { useSelector, useDispatch } from 'react-redux'
 import { addVote } from '../reducers/anecdoteReducer'
 import { createNotification, delNotification } from '../reducers/notificationReducer'
 
+import Filter from './Filter'
 
 const AnecdoteList = () => {
-  const anecdotes = useSelector(state => state.anecdotes)
+  const anecdotes = useSelector(({ anecdotes, filter }) => {
+    return filter
+      ? anecdotes.filter(a => a.content.toLowerCase().includes(filter.toLowerCase()))
+      : anecdotes
+  })
+  // const anecdotes = useSelector(state => state.anecdotes)
   const dispatch = useDispatch()
   
   const voteHandler = ({ id, content }) => {
@@ -29,14 +35,15 @@ const AnecdoteList = () => {
   return (
     <section>
       <h3>Anecdote list</h3>
-        <ul>
-          {anecdotes.sort((a, b) => b.votes - a.votes).map(anecdote =>
-            <Anecdote
-             key={anecdote.id}
-             anecdote = {anecdote}
-             voteHandler={() => voteHandler(anecdote)}
-            />
-          )}
+      <Filter />
+      <ul>
+        {anecdotes.sort((a, b) => b.votes - a.votes).map(anecdote =>
+          <Anecdote
+            key={anecdote.id}
+            anecdote = {anecdote}
+            voteHandler={() => voteHandler(anecdote)}
+          />
+        )}
       </ul>
     </section>
   )
