@@ -27,18 +27,18 @@ export const initializeAnecdotes = () => {
   }
 }
 
-export const addVote = id => (
-  {
-    type: 'ADD_VOTE',
-    data: { id }
+export const addVote = id => {
+  return async dispatch => {
+    const newContent = await anecdoteService.addVote(id)
+    dispatch({ type: 'ADD_VOTE', data: newContent })
   }
-)
+}
 
-export const newAnecdote = content => (
-  {
-    type: 'NEW_ANECDOTE',
-    data: content
+export const newAnecdote = content => {
+  return async dispatch => {
+    const newContent = await anecdoteService.createNew(content)
+    dispatch({ type: 'NEW_ANECDOTE', data: newContent })
   }
-)
+}
 
 export default anecdoteReducer
