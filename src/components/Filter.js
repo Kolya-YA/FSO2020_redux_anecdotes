@@ -1,28 +1,29 @@
 import React from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { connect } from 'react-redux'
 import { setFilter, clearFilter } from '../reducers/filterReducer'
 
-
-const Filter = () => {
-  const dispatch = useDispatch()
-  const filterStr = useSelector(state => state.filter)
+const Filter = props => {
 
   const handleChange = e => {
-    console.log('Filter: ', e.target.value)
-    dispatch(setFilter(e.target.value))
+    props.setFilter(e.target.value)
   }
 
   const handleClear = () => {
-    dispatch(clearFilter())
+    props.clearFilter()
   }
 
   return (
     <section>
       <label htmlFor='filter'>Filter </label>
-      <input name='filter' type='text' onChange={handleChange} value={filterStr} />
+      <input name='filter' type='text' onChange={handleChange} value={props.filterStr} />
       <button onClick={handleClear}>Clear</button>
     </section>
   )
 }
 
-export default Filter
+const mapStateToProps = state => ({ filterStr: state.filter })
+const mapDispatchToProps = { setFilter, clearFilter }
+
+const ConnectedFilter = connect(mapStateToProps, mapDispatchToProps)(Filter)
+
+export default ConnectedFilter
